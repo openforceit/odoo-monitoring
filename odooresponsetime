@@ -17,7 +17,7 @@ case $1 in
       ;;
 esac
 # watch out for the time zone of the logs => using date -u for UTC timestamps
-result=$(tail -60000 /var/log/odoo/odoo.log | grep -a "odoo.http.rpc.request" | grep -a -v "poll" | awk "BEGIN{sum=0;count=0} (\$1 \" \" \$2) >= \"`date +'%F %H:%M:%S' -ud '5 min ago'`\" {split(\$8,t,\":\");time=0+t[2];if (min==\"\") { min=time}; sum += time; count+=1; min=(time>min)?min:time } END{print min, sum/count}")
+result=$(tail -60000 /opt/odoo/log/odoo.log | grep -a "odoo.http.rpc.request" | grep -a -v "poll" | awk "BEGIN{sum=0;count=0} (\$1 \" \" \$2) >= \"`date +'%F %H:%M:%S' -ud '5 min ago'`\" {split(\$8,t,\":\");time=0+t[2];if (min==\"\") { min=time}; sum += time; count+=1; min=(time>min)?min:time } END{print min, sum/count}")
 echo -n "min.value "
 echo ${result} | cut -d" " -f1
 echo -n "avg.value "
